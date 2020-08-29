@@ -61,4 +61,24 @@ export class CartService {
     console.log(`totalPrice: ${totalPriceValue.toFixed(2)}, totalQuantity: ${totalQuantityValue}`);
     console.log('----');
   }
+
+  decrementQuantity(tempCartItem: CartItem) {
+    tempCartItem.quantity--;
+    if (tempCartItem.quantity === 0) {
+      this.remove(tempCartItem);
+    }
+    else {
+      this.computeCartTotals();
+    }
+  }
+
+  remove(theCartItem: CartItem) {
+    //get index of item in the array
+    const itemIndex = this.cartItems.findIndex(tempCartItem => tempCartItem.id === theCartItem.id);
+    //if found, remove the item from the array at the given index
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+      this.computeCartTotals();
+    }
+  }
 }
